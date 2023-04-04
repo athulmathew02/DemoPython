@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forms</title>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <form method="POST">
+      <fieldset>
+        <legend>Form</legend>
+        {% csrf_token %}
+
+        <table>
+  <tr>
+    <td><label for="name">Name:</label></td>
+    <td><input type="text" name="name" id="name" placeholder="Your name"></td>
+  </tr>
+  <tr>
+    <td><label for="dob">DOB:</label></td>
+    <td><input type="date" name="dob" id="dob" placeholder="DOB"></td>
+  </tr>
+  <tr>
+    <td><label for="age">Age:</label></td>
+    <td><input type="number" name="number" id="age" placeholder="Age"></td>
+  </tr>
+  <tr>
+    <td><label for="gender">Gender:</label></td>
+    <td>Male: <input type="radio" name="gender" id="gender" value="male">
+      Female: <input type="radio" name="gender"  value="female">
+      Transgender: <input type="radio" name="gender" value="Transgender"></td>
+  </tr>
+  <tr>
+    <td><label for="phoneNumber">Phone Number:</label></td>
+    <td><input type="number" name="phoneNumber" id="phoneNumber"></td>
+  </tr>
+  <tr>
+    <td><label for="email">Email:</label></td>
+    <td><input type="text" name="email" id="email" placeholder="Mail ID"></td>
+  </tr>
+  <tr>
+    <td><label for="address">Address:</label></td>
+    <td><textarea name="address" id="address" placeholder="Address"></textarea></td>
+  </tr>
+
+
+  <tr>
+    <td><label for="district">District</label></td>
+    <td>
+          <select name="district" id="district" class="form-control" >
+            <option value="">--Select District--</option>
+            <option value="1">Trivandrum</option>
+            <option value="2">Ernakulam</option>
+            <option value="4">Alappuzha</option>
+            <option value="5">Thrissur</option>
+            <option value="6">Kollam</option>
+              {% for item in district %}
+            <option value="{{item.id}}">{{item.name}}</option>
+              {% endfor %}
+          </select>
+
+    </td>
+  </tr>
+  <tr>
+    <td> <label for="branch">Branch:</label></td>
+    <td>
+        <select name="branch" id="branch" class="form-control">
+          <option value="1">--Select Branch--</option>
+          <option value="1">Attingal</option>
+          <option value="1">Varkala</option>
+          <option value="1">Neyyatinkara</option>
+          <option value="2">--Select Branch--</option>
+          <option value="2">Angamaly</option>
+          <option value="2">Perumbavoor</option>
+          <option value="2">Vytilla</option>
+          <option value="4">--Select Branch--</option>
+          <option value="4">Chertala</option>
+          <option value="4">Chengannur</option>
+          <option value="4">Danapady</option>
+          <option value="5">--Select Branch--</option>
+          <option value="5">Kunnamkulam</option>
+          <option value="5">Kodugallur</option>
+          <option value="5">Wadakkanchery</option>
+          <option value="6">--Select Branch--</option>
+          <option value="6">Anchal</option>
+          <option value="6">Chavara</option>
+          <option value="6">Bharanikavu</option>
+              {% for item in branch %}
+            <option value="{{item.distid_id}}">{{item.branchname}}</option>
+              {% endfor %}
+        </select>
+
+
+  </tr>
+  <tr>
+    <td><label for="Account">Account Type</label></td>
+    <td>
+      <select id="account" name="account">
+        <option value="">Choose</option>
+        <option value="Savings">Savings</option>
+        <option value="Current">Current</option>
+      </select></td>
+  </tr>
+  <tr>
+    <td><label for="debit">Materials Provide :</label></td>
+    <td>
+      <input type="checkbox" id="debit" name="materials[]" value="Debit Card">
+      <label for="debit">Debit Card</label>
+      <input type="checkbox" id="credit" name="materials[]" value="Credit Card">
+      <label for="credit">Credit Card</label>
+      <input type="checkbox" id="cheque" name="materials[]" value="Chequebook">
+      <label for="debit">Cheque Book</label></td>
+  </tr>
+
+</table>
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">
+        Submit
+        </button>
+      </fieldset>
+    </form>
+    {% include 'messages.html' %}
+<a class="btn btn-primary" href="{% url 'login' %}">Logout</a>
+<div>
+      <a href="{% url 'home' %}" >Return to Home</a>
+</div>
+<script>
+$(document).ready(function(){
+
+ var district = $("#district");
+ var branch = $("#branch");
+ var $options = branch.find('option');
+ district.on('change',function(){
+    branch.html($options.filter('[value="'+ this.value  +'"]'));
+ }).trigger('change');
+
+
+});
+</script>
+
+</body>
+</html>
+
+
